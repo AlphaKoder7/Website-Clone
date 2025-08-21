@@ -1,242 +1,242 @@
-# 🏛️ Pune Cantonment Board Website Clone
+# Pune Cantonment Board Website Clone
 
-A full-stack web application that replicates the functionality of the Pune Cantonment Board government website with modern features, complete admin panel, and stage-based application processing system.
+A full-stack web application that clones the Pune Cantonment Board website with modern features and functionality.
 
-![Pune Cantonment Board](https://img.shields.io/badge/Government-Website%20Clone-blue)
-![Node.js](https://img.shields.io/badge/Node.js-18+-green)
-![MongoDB](https://img.shields.io/badge/MongoDB-7.5+-orange)
-![Express](https://img.shields.io/badge/Express-4.18+-yellow)
+## Features
 
-## ✨ Features
+- **Frontend**: Responsive design with Bootstrap 5, EJS templating
+- **Backend**: Node.js with Express.js framework
+- **Database**: MongoDB with Mongoose ODM
+- **Admin Panel**: Complete admin interface for content management
+- **Forms**: Contact forms, service applications
+- **File Upload**: Support for document attachments
+- **Search**: Full-text search functionality
+- **API**: RESTful API endpoints
 
-### 🎯 **Core Functionality**
-- **Public Website**: Homepage, services, notices, contact forms
-- **Application System**: Birth/Death certificate applications with document uploads
-- **Admin Panel**: Complete administrative interface for content management
-- **Progress Tracking**: Stage-based application workflow system
-- **Document Management**: Secure file upload and storage via ImageKit
+## Tech Stack
 
-### 🚀 **Application Progress Stages**
-1. **Submitted** - Application received
-2. **Document Verification** - Document review and validation
-3. **Field Verification** - On-site verification process
-4. **Approval** - Administrative approval
-5. **Certificate Generation** - Document creation
-6. **Completed** - Process finished
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB, Mongoose
+- **Frontend**: EJS, Bootstrap 5, Font Awesome
+- **File Upload**: Multer
+- **Session Management**: Express-session
+- **Security**: Helmet, CORS, Rate limiting
 
-### 🔐 **Admin Features**
-- **Dashboard**: Real-time statistics and progress tracking
-- **Application Management**: Review and process applications by stage
-- **Document Viewer**: Access uploaded documents
-- **Status Updates**: Move applications through workflow stages
-- **Progress Monitoring**: Track application completion rates
+## Installation
 
-## 🛠️ Tech Stack
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd pune-cantonment-clone
+   ```
 
-| Component | Technology |
-|-----------|------------|
-| **Backend** | Node.js, Express.js |
-| **Database** | MongoDB with Mongoose ODM |
-| **Frontend** | EJS templating, Bootstrap 5 |
-| **File Storage** | ImageKit integration |
-| **Security** | Helmet, CORS, Rate limiting |
-| **Authentication** | Session-based admin system |
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-## 📋 Prerequisites
+3. **Set up environment variables**
+   Create a `.env` file in the root directory:
+   ```env
+   PORT=3000
+   MONGODB_URI=mongodb://localhost:27017/pune_cantonment
+   SESSION_SECRET=your_session_secret_here
+   NODE_ENV=development
+   
+   # ImageKit Configuration (for document storage)
+   IMAGEKIT_PUBLIC_KEY=your_imagekit_public_key
+   IMAGEKIT_PRIVATE_KEY=your_imagekit_private_key
+   IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your_imagekit_id
+   ```
 
-- **Node.js** (v18 or higher)
-- **MongoDB** (v7.5 or higher)
-- **ImageKit Account** (for document storage)
-- **Git** (for version control)
+4. **Set up ImageKit** (for document storage)
+   - Sign up at [ImageKit.io](https://imagekit.io)
+   - Get your Public Key, Private Key, and URL Endpoint
+   - Add them to your `.env` file
 
-## 🚀 Installation
+5. **Start MongoDB**
+   Make sure MongoDB is running on your system.
 
-### **1. Clone the Repository**
-```bash
-git clone https://github.com/AlphaKoder7/Website-Clone.git
-cd Website-Clone
+6. **Seed the database** (optional)
+   ```bash
+   npm run seed
+   ```
+
+7. **Start the application**
+   ```bash
+   # Development mode
+   npm run dev
+   
+   # Production mode
+   npm start
+   ```
+
+8. **Access the application**
+   - Website: http://localhost:3002
+   - Admin Panel: http://localhost:3002/admin/login
+   - Test admin credentials:
+     - `admin` / `password`
+     - `pcb_admin` / `123456`
+     - `test` / `test123`
+
+## Project Structure
+
+```
+├── models/              # MongoDB models
+│   ├── Notice.js
+│   ├── Contact.js
+│   └── Service.js
+├── routes/              # Express routes
+│   ├── index.js         # Main website routes
+│   ├── admin.js         # Admin panel routes
+│   └── api.js           # API endpoints
+├── views/               # EJS templates
+│   ├── partials/        # Reusable components
+│   ├── admin/           # Admin panel views
+│   └── *.ejs            # Page templates
+├── public/              # Static assets
+│   ├── css/
+│   ├── js/
+│   ├── images/
+│   └── uploads/         # File uploads
+├── scripts/             # Utility scripts
+│   └── seed.js          # Database seeding
+├── server.js            # Main application file
+└── package.json
 ```
 
-### **2. Install Dependencies**
+## Key Features
+
+### Document Management
+- **ImageKit Integration**: Secure cloud storage for all documents
+- **Document Types**: Support for birth/death certificate requirements
+- **File Validation**: Automatic validation of file types and sizes
+- **Thumbnail Generation**: Automatic thumbnail creation for images
+- **Secure Access**: Protected document URLs with access control
+
+### Application System
+- **Birth Certificates**: Complete online application with required documents
+- **Death Certificates**: Comprehensive death certificate application
+- **Document Requirements**: Specific document types for each application
+- **Status Tracking**: Real-time application status updates
+- **Admin Review**: Complete admin workflow for application processing
+
+### Public Website
+- **Homepage**: Hero section, quick services, latest notices
+- **About**: Information about Pune Cantonment Board
+- **Services**: Detailed service information with requirements and procedures
+- **Notices**: Paginated notices with search and filtering
+- **Tenders**: Active tenders with document downloads
+- **Contact**: Contact form with department-wise routing
+- **Birth Certificate Application**: Online form with document upload
+- **Death Certificate Application**: Online form with document upload
+- **Application Status Check**: Track application progress
+
+### Admin Panel
+- **Dashboard**: Statistics and quick actions for all modules
+- **Notice Management**: Create, edit, delete notices with file attachments
+- **Application Management**: Review birth/death certificate applications
+- **Document Viewer**: View uploaded documents via ImageKit
+- **Status Management**: Approve/reject applications with remarks
+- **Contact Management**: View and respond to citizen queries
+- **Service Management**: Manage service information
+
+### API Endpoints
+- `GET /api/notices` - Get all notices
+- `GET /api/notices/:id` - Get single notice
+- `GET /api/services` - Get all services
+- `POST /api/contact` - Submit contact form
+- `GET /api/search` - Search notices
+
+## Database Models
+
+### Notice
+- Title, content, category, priority
+- Publish date, expiry date
+- File attachments
+- View count, active status
+
+### Service
+- Name, description, category
+- Requirements, procedure steps
+- Fees, processing time
+- Contact person details
+
+### Contact
+- User details (name, email, phone)
+- Subject, message, department
+- Status tracking, admin responses
+
+## Security Features
+
+- Helmet for security headers
+- CORS protection
+- Rate limiting
+- Input validation
+- File upload restrictions
+- Session management
+
+## Responsive Design
+
+- Mobile-first approach
+- Bootstrap 5 grid system
+- Touch-friendly interface
+- Optimized for all screen sizes
+
+## Development
+
+### Adding New Features
+1. Create/modify models in `models/`
+2. Add routes in `routes/`
+3. Create views in `views/`
+4. Update styles in `public/css/`
+5. Add client-side JS in `public/js/`
+
+### Database Seeding
+The seed script creates sample data for development:
 ```bash
-npm install
-```
-
-### **3. Environment Configuration**
-Create a `.env` file in the root directory:
-```env
-PORT=3002
-MONGODB_URI=mongodb://localhost:27017/pune_cantonment
-SESSION_SECRET=your_session_secret_here_12345
-NODE_ENV=development
-
-# ImageKit Configuration
-IMAGEKIT_PUBLIC_KEY=your_imagekit_public_key
-IMAGEKIT_PRIVATE_KEY=your_imagekit_private_key
-IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your_imagekit_id
-```
-
-### **4. Database Setup**
-```bash
-# Start MongoDB
-mongod
-
-# Seed the database (in another terminal)
 npm run seed
 ```
 
-### **5. Start the Application**
-```bash
-# Development mode
-npm run dev
+### File Uploads
+Files are stored in `public/uploads/` with unique names.
+Supported formats: PDF, DOC, DOCX, JPG, PNG, GIF
 
-# Production mode
-npm start
-```
+## Deployment
 
-## 🌐 Access URLs
-
-- **Main Website**: http://localhost:3002
-- **Admin Panel**: http://localhost:3002/admin/login
-- **Admin Test Page**: http://localhost:3002/admin-test
-
-## 🔑 Admin Credentials
-
-| Username | Password | Description |
-|----------|----------|-------------|
-| `admin` | `password` | Main admin account |
-| `pcb_admin` | `123456` | PCB specific admin |
-| `test` | `test123` | Test account |
-
-## 📁 Project Structure
-
-```
-Website-Clone/
-├── models/              # MongoDB schemas
-│   ├── Application.js   # Application model with stages
-│   ├── Contact.js       # Contact form submissions
-│   ├── Notice.js        # Government notices
-│   └── Service.js       # Service information
-├── routes/              # Express route handlers
-│   ├── index.js         # Main website routes
-│   ├── admin.js         # Admin panel routes
-│   ├── api.js           # API endpoints
-│   └── upload.js        # File upload handling
-├── views/               # EJS templates
-│   ├── admin/           # Admin panel views
-│   ├── forms/           # Application forms
-│   └── partials/        # Reusable components
-├── public/              # Static assets
-├── scripts/             # Database seeding
-├── utils/               # ImageKit integration
-└── server.js            # Main application file
-```
-
-## 🔄 Application Workflow
-
-### **Stage 1: Submission**
-- User fills application form
-- Documents uploaded to ImageKit
-- Application assigned unique number
-- Status: `submitted`
-
-### **Stage 2: Document Verification**
-- Admin reviews uploaded documents
-- Validates document authenticity
-- Marks stage as complete
-- Status: `document-verification`
-
-### **Stage 3: Field Verification**
-- On-site verification process
-- Physical document checks
-- Field officer reports
-- Status: `field-verification`
-
-### **Stage 4: Approval**
-- Administrative review
-- Final approval decision
-- Certificate number assignment
-- Status: `approval`
-
-### **Stage 5: Certificate Generation**
-- Generate official certificate
-- Digital signature application
-- Status: `certificate-generation`
-
-### **Stage 6: Completion**
-- Process finalized
-- Certificate delivered
-- Status: `completed`
-
-## 📊 Dashboard Features
-
-- **Real-time Statistics**: Application counts by stage
-- **Progress Tracking**: Visual progress bars
-- **Quick Actions**: Stage-specific filtering
-- **Performance Metrics**: Processing time analysis
-
-## 🔒 Security Features
-
-- **Input Validation**: Form data sanitization
-- **File Upload Security**: Type and size restrictions
-- **Rate Limiting**: API abuse prevention
-- **Session Management**: Secure admin authentication
-- **CORS Protection**: Cross-origin request handling
-
-## 🎨 UI/UX Features
-
-- **Responsive Design**: Mobile-first approach
-- **Bootstrap 5**: Modern component library
-- **Font Awesome**: Professional iconography
-- **Progress Indicators**: Visual workflow representation
-- **Interactive Elements**: Hover effects and animations
-
-## 🚀 Deployment
-
-### **Local Development**
-```bash
-npm run dev
-```
-
-### **Production Deployment**
-```bash
-npm start
-```
-
-### **Environment Variables**
+### Environment Setup
 - Set `NODE_ENV=production`
-- Configure production MongoDB
-- Set up HTTPS certificates
-- Configure ImageKit production keys
+- Use a production MongoDB instance
+- Configure proper session secrets
+- Set up HTTPS in production
 
-## 🤝 Contributing
+### Recommended Hosting
+- **Backend**: Heroku, DigitalOcean, AWS
+- **Database**: MongoDB Atlas
+- **Files**: AWS S3 (for production file storage)
+
+## Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-## 📝 License
+## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
-## 🙏 Acknowledgments
-
-- **Original Website**: [Pune Cantonment Board](https://pune.cantt.gov.in)
-- **Bootstrap**: Responsive design framework
-- **Font Awesome**: Icon library
-- **MongoDB**: Database solution
-- **Express.js**: Web framework
-
-## 📞 Support
+## Support
 
 For support and questions:
 - Create an issue on GitHub
 - Contact: [your-email@example.com]
 
----
+## Acknowledgments
 
-**⭐ Star this repository if you find it helpful!**
-
-**🔗 Repository**: [https://github.com/AlphaKoder7/Website-Clone.git](https://github.com/AlphaKoder7/Website-Clone.git)
+- Original website: https://pune.cantt.gov.in
+- Bootstrap 5 for responsive design
+- Font Awesome for icons
+- MongoDB for database
+- Express.js community

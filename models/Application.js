@@ -140,35 +140,6 @@ const applicationSchema = new mongoose.Schema({
     enum: ['pending', 'under-review', 'approved', 'rejected', 'completed'],
     default: 'pending'
   },
-  currentStage: {
-    type: String,
-    enum: ['submitted', 'document-verification', 'field-verification', 'approval', 'certificate-generation', 'completed'],
-    default: 'submitted'
-  },
-  stageHistory: [{
-    stage: {
-      type: String,
-      enum: ['submitted', 'document-verification', 'field-verification', 'approval', 'certificate-generation', 'completed']
-    },
-    status: {
-      type: String,
-      enum: ['pending', 'in-progress', 'completed', 'failed']
-    },
-    startedAt: {
-      type: Date,
-      default: Date.now
-    },
-    completedAt: Date,
-    remarks: String,
-    processedBy: String,
-    documents: [{
-      fileId: String,
-      fileName: String,
-      originalName: String,
-      url: String,
-      documentType: String
-    }]
-  }],
   remarks: {
     type: String
   },
@@ -180,14 +151,6 @@ const applicationSchema = new mongoose.Schema({
   },
   certificateNumber: {
     type: String
-  },
-  estimatedCompletionDate: {
-    type: Date
-  },
-  priority: {
-    type: String,
-    enum: ['normal', 'urgent', 'super-urgent'],
-    default: 'normal'
   }
 }, {
   timestamps: true
@@ -207,19 +170,6 @@ applicationSchema.pre('save', async function(next) {
     });
     this.applicationNumber = `${prefix}${year}${String(count + 1).padStart(4, '0')}`;
   }
-  
-  // Initialize stage history if it doesn't exist
-  if (!this.stageHistory || this.stageHistory.length === 0) {
-    this.stageHistory = [{
-      stage: 'submitted',
-      status: 'completed',
-      startedAt: new Date(),
-      completedAt: new Date(),
-      remarks: 'Application submitted successfully',
-      processedBy: 'System'
-    }];
-  }
-  
   next();
 });
 

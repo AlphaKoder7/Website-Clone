@@ -50,6 +50,9 @@
                     <a class="nav-link" href="/admin/applications">
                         <i class="fas fa-file-medical"></i> Applications
                     </a>
+                    <a class="nav-link" href="/admin/contacts">
+                        <i class="fas fa-envelope"></i> Contacts
+                    </a>
                     <hr class="text-secondary">
                     <a class="nav-link" href="/" target="_blank">
                         <i class="fas fa-external-link-alt"></i> View Website
@@ -93,79 +96,16 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <div>
-                            <h4><%= stats.totalApplications %></h4>
-                            <p class="mb-0">Total Applications</p>
+                            <h4><%= stats.contacts %></h4>
+                            <p class="mb-0">Total Contacts</p>
                         </div>
                         <div class="align-self-center">
-                            <i class="fas fa-file-medical fa-2x"></i>
+                            <i class="fas fa-envelope fa-2x"></i>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a href="/admin/applications" class="text-white text-decoration-none">
-                        View Details <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card bg-warning text-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h4><%= stats.documentVerificationApps %></h4>
-                            <p class="mb-0">Document Verification</p>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-file-check fa-2x"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <a href="/admin/applications?currentStage=document-verification" class="text-white text-decoration-none">
-                        View Details <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card bg-primary text-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h4><%= stats.fieldVerificationApps %></h4>
-                            <p class="mb-0">Field Verification</p>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-search fa-2x"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <a href="/admin/applications?currentStage=field-verification" class="text-white text-decoration-none">
-                        View Details <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h4><%= stats.approvalApps %></h4>
-                            <p class="mb-0">Approval Stage</p>
-                        </div>
-                        <div class="align-self-center">
-                            <i class="fas fa-check-circle fa-2x"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <a href="/admin/applications?currentStage=approval" class="text-white text-decoration-none">
+                    <a href="/admin/contacts" class="text-white text-decoration-none">
                         View Details <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
@@ -290,36 +230,30 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-6 mb-3">
                             <a href="/admin/applications" class="btn btn-purple btn-lg w-100" style="background-color: #6f42c1; border-color: #6f42c1;">
                                 <i class="fas fa-file-medical"></i><br>
-                                All Applications
+                                Applications
                             </a>
                         </div>
-                        <div class="col-md-4 mb-3">
-                            <a href="/admin/applications?status=pending" class="btn btn-warning btn-lg w-100">
-                                <i class="fas fa-clock"></i><br>
-                                Pending Reviews
-                            </a>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <a href="/admin/applications?currentStage=document-verification" class="btn btn-info btn-lg w-100">
-                                <i class="fas fa-file-check"></i><br>
-                                Document Verification
+                        <div class="col-md-6 mb-3">
+                            <a href="/admin/contacts" class="btn btn-info btn-lg w-100">
+                                <i class="fas fa-envelope"></i><br>
+                                View Messages
                             </a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <a href="/admin/applications?currentStage=field-verification" class="btn btn-primary btn-lg w-100">
-                                <i class="fas fa-search"></i><br>
-                                Field Verification
+                            <a href="/admin/contacts" class="btn btn-info btn-lg w-100">
+                                <i class="fas fa-envelope"></i><br>
+                                View Messages
                             </a>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <a href="/admin/applications?currentStage=approval" class="btn btn-success btn-lg w-100">
-                                <i class="fas fa-check-circle"></i><br>
-                                Approval Stage
+                            <a href="/admin/applications?status=pending" class="btn btn-warning btn-lg w-100">
+                                <i class="fas fa-clock"></i><br>
+                                Pending Reviews
                             </a>
                         </div>
                     </div>

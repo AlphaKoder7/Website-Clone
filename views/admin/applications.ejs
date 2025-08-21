@@ -12,34 +12,12 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Manage Applications</h2>
             <div class="btn-group">
-                <a href="/admin/applications" class="btn <%= !currentType && !currentStatus && !currentStage ? 'btn-primary' : 'btn-outline-primary' %>">All</a>
+                <a href="/admin/applications" class="btn <%= !currentType && !currentStatus ? 'btn-primary' : 'btn-outline-primary' %>">All</a>
                 <a href="/admin/applications?type=birth" class="btn <%= currentType === 'birth' ? 'btn-success' : 'btn-outline-success' %>">Birth</a>
                 <a href="/admin/applications?type=death" class="btn <%= currentType === 'death' ? 'btn-dark' : 'btn-outline-dark' %>">Death</a>
-            </div>
-        </div>
-        
-        <!-- Stage-based filtering -->
-        <div class="mb-4">
-            <h5>Filter by Stage:</h5>
-            <div class="btn-group">
-                <a href="/admin/applications?currentStage=submitted" class="btn <%= currentStage === 'submitted' ? 'btn-info' : 'btn-outline-info' %>">
-                    <i class="fas fa-paper-plane"></i> Submitted
-                </a>
-                <a href="/admin/applications?currentStage=document-verification" class="btn <%= currentStage === 'document-verification' ? 'btn-warning' : 'btn-outline-warning' %>">
-                    <i class="fas fa-file-check"></i> Document Verification
-                </a>
-                <a href="/admin/applications?currentStage=field-verification" class="btn <%= currentStage === 'field-verification' ? 'btn-primary' : 'btn-outline-primary' %>">
-                    <i class="fas fa-search"></i> Field Verification
-                </a>
-                <a href="/admin/applications?currentStage=approval" class="btn <%= currentStage === 'approval' ? 'btn-success' : 'btn-outline-success' %>">
-                    <i class="fas fa-check-circle"></i> Approval
-                </a>
-                <a href="/admin/applications?currentStage=certificate-generation" class="btn <%= currentStage === 'certificate-generation' ? 'btn-purple' : 'btn-outline-purple' %>">
-                    <i class="fas fa-certificate"></i> Certificate Generation
-                </a>
-                <a href="/admin/applications?currentStage=completed" class="btn <%= currentStage === 'completed' ? 'btn-dark' : 'btn-outline-dark' %>">
-                    <i class="fas fa-flag-checkered"></i> Completed
-                </a>
+                <a href="/admin/applications?status=pending" class="btn <%= currentStatus === 'pending' ? 'btn-warning' : 'btn-outline-warning' %>">Pending</a>
+                <a href="/admin/applications?status=under-review" class="btn <%= currentStatus === 'under-review' ? 'btn-info' : 'btn-outline-info' %>">Under Review</a>
+                <a href="/admin/applications?status=completed" class="btn <%= currentStatus === 'completed' ? 'btn-success' : 'btn-outline-success' %>">Completed</a>
             </div>
         </div>
 
@@ -54,8 +32,7 @@
                                 <th>Applicant</th>
                                 <th>Subject</th>
                                 <th>Applied Date</th>
-                                <th>Current Stage</th>
-                                <th>Progress</th>
+                                <th>Status</th>
                                 <th>Documents</th>
                                 <th>Actions</th>
                             </tr>
@@ -91,40 +68,13 @@
                                         <td><%= application.createdAt.toLocaleDateString() %></td>
                                         <td>
                                             <span class="badge bg-<%= 
-                                                application.currentStage === 'submitted' ? 'info' : 
-                                                application.currentStage === 'document-verification' ? 'warning' : 
-                                                application.currentStage === 'field-verification' ? 'primary' : 
-                                                application.currentStage === 'approval' ? 'success' : 
-                                                application.currentStage === 'certificate-generation' ? 'purple' : 'dark' 
+                                                application.status === 'pending' ? 'warning' : 
+                                                application.status === 'under-review' ? 'info' : 
+                                                application.status === 'approved' ? 'primary' : 
+                                                application.status === 'completed' ? 'success' : 'danger' 
                                             %>">
-                                                <%= application.currentStage.replace('-', ' ').toUpperCase() %>
+                                                <%= application.status.toUpperCase().replace('-', ' ') %>
                                             </span>
-                                        </td>
-                                        <td>
-                                            <div class="progress" style="height: 20px;">
-                                                <div class="progress-bar bg-<%= 
-                                                    application.currentStage === 'submitted' ? 'info' : 
-                                                    application.currentStage === 'document-verification' ? 'warning' : 
-                                                    application.currentStage === 'field-verification' ? 'primary' : 
-                                                    application.currentStage === 'approval' ? 'success' : 
-                                                    application.currentStage === 'certificate-generation' ? 'purple' : 'success' 
-                                                %>" 
-                                                style="width: <%= 
-                                                    application.currentStage === 'submitted' ? '16' : 
-                                                    application.currentStage === 'document-verification' ? '33' : 
-                                                    application.currentStage === 'field-verification' ? '50' : 
-                                                    application.currentStage === 'approval' ? '66' : 
-                                                    application.currentStage === 'certificate-generation' ? '83' : '100' 
-                                                %>%">
-                                                    <%= 
-                                                        application.currentStage === 'submitted' ? '16%' : 
-                                                        application.currentStage === 'document-verification' ? '33%' : 
-                                                        application.currentStage === 'field-verification' ? '50%' : 
-                                                        application.currentStage === 'approval' ? '66%' : 
-                                                        application.currentStage === 'certificate-generation' ? '83%' : '100%' 
-                                                    %>
-                                                </div>
-                                            </div>
                                         </td>
                                         <td>
                                             <span class="badge bg-secondary">
@@ -140,7 +90,7 @@
                                 <% }) %>
                             <% } else { %>
                                 <tr>
-                                    <td colspan="9" class="text-center">No applications found</td>
+                                    <td colspan="8" class="text-center">No applications found</td>
                                 </tr>
                             <% } %>
                         </tbody>

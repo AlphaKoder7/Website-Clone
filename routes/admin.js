@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const Contact = require('../models/Contact');
 const Application = require('../models/Application');
 
 // Simple authentication middleware (replace with proper auth in production)
@@ -96,33 +97,24 @@ router.post('/login', (req, res) => {
 // Admin dashboard
 router.get('/dashboard', requireAuth, async (req, res) => {
   try {
+    const contactCount = await Contact.countDocuments();
+    const pendingContacts = await Contact.countDocuments({ status: 'pending' });
+    
     // Application statistics
     const totalApplications = await Application.countDocuments();
     const pendingApplications = await Application.countDocuments({ status: 'pending' });
     const birthApplications = await Application.countDocuments({ type: 'birth' });
     const deathApplications = await Application.countDocuments({ type: 'death' });
-    
-    // Stage-based statistics
-    const submittedApps = await Application.countDocuments({ currentStage: 'submitted' });
-    const documentVerificationApps = await Application.countDocuments({ currentStage: 'document-verification' });
-    const fieldVerificationApps = await Application.countDocuments({ currentStage: 'field-verification' });
-    const approvalApps = await Application.countDocuments({ currentStage: 'approval' });
-    const certificateGenerationApps = await Application.countDocuments({ currentStage: 'certificate-generation' });
-    const completedApps = await Application.countDocuments({ currentStage: 'completed' });
 
     res.render('admin/dashboard', {
       title: 'Admin Dashboard',
       stats: {
+        contacts: contactCount,
+        pendingContacts,
         totalApplications,
         pendingApplications,
         birthApplications,
-        deathApplications,
-        submittedApps,
-        documentVerificationApps,
-        fieldVerificationApps,
-        approvalApps,
-        certificateGenerationApps,
-        completedApps
+        deathApplications
       }
     });
   } catch (error) {
@@ -136,30 +128,19 @@ router.get('/dashboard', requireAuth, async (req, res) => {
 
 // Notices and Services routes removed - not fully developed
 
-// Stage-based application management
-router.get('/applications', requireAuth, async (req, res) => {
+// Contacts management
+router.get('/contacts', requireAuth, async (req, res) => {
   try {
-    const { type, status, currentStage } = req.query;
-    const query = {};
-    
-    if (type) query.type = type;
-    if (status) query.status = status;
-    if (currentStage) query.currentStage = currentStage;
-    
-    const applications = await Application.find(query).sort({ createdAt: -1 });
-    
-    res.render('admin/applications', {
-      title: 'Manage Applications',
-      applications,
-      currentType: type,
-      currentStatus: status,
-      currentStage: currentStage
+    const contacts = await Contact.find().sort({ createdAt: -1 });
+    res.render('admin/contacts', {
+      title: 'Manage Contacts',
+      contacts
     });
   } catch (error) {
     console.error(error);
     res.status(500).render('error', { 
       title: 'Error',
-      message: 'Unable to load applications'
+      message: 'Unable to load contacts'
     });
   }
 });
@@ -215,47 +196,19 @@ router.get('/applications/:id', requireAuth, async (req, res) => {
   }
 });
 
-// Update application stage and status
-router.post('/applications/:id/stage', requireAuth, async (req, res) => {
+// Update application status
+router.post('/applications/:id/status', requireAuth, async (req, res) => {
   try {
-    const { currentStage, status, remarks, certificateNumber, estimatedCompletionDate, priority } = req.body;
-    
-    const application = await Application.findById(req.params.id);
-    if (!application) {
-      return res.status(404).json({ success: false, message: 'Application not found' });
-    }
-    
-    // Add current stage to history
-    const stageHistoryEntry = {
-      stage: application.currentStage,
-      status: 'completed',
-      startedAt: application.stageHistory.find(h => h.stage === application.currentStage)?.startedAt || new Date(),
-      completedAt: new Date(),
-      remarks: remarks || `Moved from ${application.currentStage} to ${currentStage}`,
-      processedBy: 'Administrator'
-    };
-    
-    // Add new stage to history
-    const newStageEntry = {
-      stage: currentStage,
-      status: 'in-progress',
-      startedAt: new Date(),
-      remarks: remarks || `Stage started`,
-      processedBy: 'Administrator'
-    };
+    const { status, remarks, certificateNumber } = req.body;
     
     const updateData = {
-      currentStage,
-      status: status || application.status,
-      processedBy: 'Administrator',
-      processedAt: new Date(),
-      $push: { stageHistory: [stageHistoryEntry, newStageEntry] }
+      status,
+      processedBy: 'Administrator', // In real app, use req.session.user
+      processedAt: new Date()
     };
     
     if (remarks) updateData.remarks = remarks;
     if (certificateNumber) updateData.certificateNumber = certificateNumber;
-    if (estimatedCompletionDate) updateData.estimatedCompletionDate = estimatedCompletionDate;
-    if (priority) updateData.priority = priority;
     
     await Application.findByIdAndUpdate(req.params.id, updateData);
     
