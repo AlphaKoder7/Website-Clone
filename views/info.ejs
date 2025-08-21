@@ -1,0 +1,133 @@
+<%- include('partials/header') %>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="fas fa-info-circle"></i> System Information</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-globe"></i> Website Access</h5>
+                            <ul class="list-unstyled">
+                                <li><strong>Homepage:</strong> <a href="/">http://localhost:3002/</a></li>
+                                <li><strong>Birth Certificate:</strong> <a href="/apply/birth-certificate">Apply Here</a></li>
+                                <li><strong>Death Certificate:</strong> <a href="/apply/death-certificate">Apply Here</a></li>
+                                <li><strong>Check Status:</strong> <a href="/check-status">Track Application</a></li>
+                                <li><strong>Services:</strong> <a href="/services">View All Services</a></li>
+                                <li><strong>Notices:</strong> <a href="/notices">Latest Notices</a></li>
+                                <li><strong>Contact:</strong> <a href="/contact">Contact Us</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-shield-alt"></i> Admin Panel Access</h5>
+                            <p><strong>URL:</strong> <a href="/admin/login" target="_blank">http://localhost:3002/admin/login</a></p>
+                            
+                            <h6>Test Credentials (Copy & Paste):</h6>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>Password</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>admin</code></td>
+                                            <td><code>password</code></td>
+                                            <td><a href="/admin/login" class="btn btn-xs btn-outline-primary">Login</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>pcb_admin</code></td>
+                                            <td><code>123456</code></td>
+                                            <td><a href="/admin/login" class="btn btn-xs btn-outline-primary">Login</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>test</code></td>
+                                            <td><code>test123</code></td>
+                                            <td><a href="/admin/login" class="btn btn-xs btn-outline-primary">Login</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="alert alert-success mt-3">
+                                <h6><i class="fas fa-lightbulb"></i> Quick Test:</h6>
+                                <p class="mb-2">Use these exact credentials (case-sensitive):</p>
+                                <ul class="mb-0">
+                                    <li><strong>Username:</strong> admin</li>
+                                    <li><strong>Password:</strong> password</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-cogs"></i> Admin Features</h5>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success"></i> Dashboard with statistics</li>
+                                <li><i class="fas fa-check text-success"></i> Application management</li>
+                                <li><i class="fas fa-check text-success"></i> Document viewer</li>
+                                <li><i class="fas fa-check text-success"></i> Status updates</li>
+                                <li><i class="fas fa-check text-success"></i> Notice management</li>
+                                <li><i class="fas fa-check text-success"></i> Contact management</li>
+                                <li><i class="fas fa-check text-success"></i> Certificate generation</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-file-upload"></i> Testing Notes</h5>
+                            <div class="alert alert-info">
+                                <h6><i class="fas fa-info-circle"></i> Document Upload:</h6>
+                                <p class="mb-2">For testing purposes, document uploads are now <strong>optional</strong>. You can:</p>
+                                <ul class="mb-0">
+                                    <li>Submit applications without documents</li>
+                                    <li>Upload documents later if needed</li>
+                                    <li>Test the full workflow without files</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="alert alert-warning">
+                                <h6><i class="fas fa-exclamation-triangle"></i> ImageKit Setup:</h6>
+                                <p class="mb-0">To enable document uploads, configure ImageKit credentials in the <code>.env</code> file.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h5><i class="fas fa-play-circle"></i> Quick Test Workflow</h5>
+                            <ol>
+                                <li>Apply for a <a href="/apply/birth-certificate">Birth Certificate</a> or <a href="/apply/death-certificate">Death Certificate</a></li>
+                                <li>Note down the application number (e.g., BC20240001)</li>
+                                <li>Login to <a href="/admin/login" target="_blank">Admin Panel</a> using any test credentials</li>
+                                <li>Go to Applications section to review the application</li>
+                                <li>Update status, add remarks, and issue certificate number</li>
+                                <li>Check application status using the <a href="/check-status">Status Check</a> page</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="/" class="btn btn-primary me-3">
+                            <i class="fas fa-home"></i> Go to Homepage
+                        </a>
+                        <a href="/admin/login" class="btn btn-success" target="_blank">
+                            <i class="fas fa-shield-alt"></i> Admin Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

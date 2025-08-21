@@ -1,0 +1,152 @@
+<%- include('partials/header') %>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="hero-content">
+                    <h2>Welcome to Pune Cantonment Board</h2>
+                    <p class="lead">Serving the community with dedication and excellence. Your trusted local government body committed to providing quality services and infrastructure development.</p>
+                    <div class="hero-buttons">
+                        <a href="/services" class="btn btn-primary btn-lg me-3">Our Services</a>
+                        <a href="/contact" class="btn btn-outline-primary btn-lg">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="hero-image">
+                    <img src="/images/cantonment-building.jpg" alt="Cantonment Building" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Services -->
+<section class="quick-services py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Quick Services</h2>
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="service-card text-center">
+                    <div class="service-icon">
+                        <i class="fas fa-file-alt fa-3x text-primary"></i>
+                    </div>
+                    <h5>Online Applications</h5>
+                    <p>Apply for birth/death certificates online</p>
+                    <div class="btn-group-vertical w-100">
+                        <a href="/apply/birth-certificate" class="btn btn-sm btn-primary mb-1">Birth Certificate</a>
+                        <a href="/apply/death-certificate" class="btn btn-sm btn-dark">Death Certificate</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="service-card text-center">
+                    <div class="service-icon">
+                        <i class="fas fa-credit-card fa-3x text-primary"></i>
+                    </div>
+                    <h5>Pay Bills</h5>
+                    <p>Pay your utility bills and taxes online</p>
+                    <a href="/services" class="btn btn-sm btn-primary">Pay Now</a>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="service-card text-center">
+                    <div class="service-icon">
+                        <i class="fas fa-phone fa-3x text-primary"></i>
+                    </div>
+                    <h5>Helpline</h5>
+                    <p>24/7 customer support for your queries</p>
+                    <a href="/contact" class="btn btn-sm btn-primary">Contact</a>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="service-card text-center">
+                    <div class="service-icon">
+                        <i class="fas fa-search fa-3x text-primary"></i>
+                    </div>
+                    <h5>Check Status</h5>
+                    <p>Track your application status online</p>
+                    <a href="/check-status" class="btn btn-sm btn-primary">Check Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Notices -->
+<section class="notices-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="section-header d-flex justify-content-between align-items-center mb-4">
+                    <h3>Latest Notices</h3>
+                    <a href="/notices" class="btn btn-outline-primary">View All</a>
+                </div>
+                <div class="notices-list">
+                    <% if (notices && notices.length > 0) { %>
+                        <% notices.forEach(notice => { %>
+                            <div class="notice-item border-bottom pb-3 mb-3">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="notice-content">
+                                        <h5><a href="/notices/<%= notice._id %>" class="text-decoration-none"><%= notice.title %></a></h5>
+                                        <p class="text-muted mb-2"><%= notice.content.substring(0, 150) %>...</p>
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar"></i> <%= notice.publishDate.toLocaleDateString() %>
+                                            <span class="badge bg-<%= notice.priority === 'urgent' ? 'danger' : notice.priority === 'high' ? 'warning' : 'secondary' %> ms-2">
+                                                <%= notice.priority.toUpperCase() %>
+                                            </span>
+                                        </small>
+                                    </div>
+                                    <div class="notice-category">
+                                        <span class="badge bg-primary"><%= notice.category %></span>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p class="text-muted">No notices available at the moment.</p>
+                    <% } %>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <!-- Important Links -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5>Important Links</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li><a href="/tenders" class="text-decoration-none"><i class="fas fa-gavel"></i> Current Tenders</a></li>
+                                <li><a href="/services" class="text-decoration-none"><i class="fas fa-cogs"></i> Citizen Services</a></li>
+                                <li><a href="/contact" class="text-decoration-none"><i class="fas fa-phone"></i> Emergency Contacts</a></li>
+                                <li><a href="/about" class="text-decoration-none"><i class="fas fa-info-circle"></i> About PCB</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Contact Information</h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Address:</strong><br>
+                            Pune Cantonment Board<br>
+                            Wanowrie, Pune - 411040</p>
+                            <p><strong>Phone:</strong> +91-20-26331394</p>
+                            <p><strong>Email:</strong> info@pune.cantt.gov.in</p>
+                            <p><strong>Office Hours:</strong><br>
+                            Mon-Fri: 10:00 AM - 5:00 PM<br>
+                            Sat: 10:00 AM - 2:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('partials/footer') %>

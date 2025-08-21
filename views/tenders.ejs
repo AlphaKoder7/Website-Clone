@@ -1,0 +1,204 @@
+<%- include('partials/header') %>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <h2>Current Tenders</h2>
+            <p class="lead">View all active tenders and procurement opportunities from Pune Cantonment Board.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-9">
+            <% if (tenders && tenders.length > 0) { %>
+                <% tenders.forEach(tender => { %>
+                    <div class="tender-card card mb-4">
+                        <div class="card-header bg-success text-white">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">
+                                    <i class="fas fa-gavel"></i> <%= tender.title %>
+                                </h5>
+                                <span class="badge bg-light text-dark">
+                                    <%= tender.priority.toUpperCase() %>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"><%= tender.content %></p>
+                            
+                            <div class="tender-details">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p><strong>Published:</strong> <%= tender.publishDate.toLocaleDateString() %></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <% if (tender.expiryDate) { %>
+                                            <p><strong>Last Date:</strong> 
+                                                <span class="text-danger">
+                                                    <%= tender.expiryDate.toLocaleDateString() %>
+                                                </span>
+                                            </p>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                
+                                <% if (tender.attachments && tender.attachments.length > 0) { %>
+                                    <div class="attachments">
+                                        <h6><i class="fas fa-paperclip"></i> Tender Documents:</h6>
+                                        <% tender.attachments.forEach(attachment => { %>
+                                            <a href="/uploads/<%= attachment.filename %>" class="btn btn-sm btn-outline-primary me-2 mb-2" target="_blank">
+                                                <i class="fas fa-download"></i> <%= attachment.originalName %>
+                                            </a>
+                                        <% }) %>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    <i class="fas fa-eye"></i> <%= tender.views || 0 %> views
+                                </small>
+                                <div>
+                                    <button class="btn btn-success btn-sm" onclick="showTenderDetails('<%= tender._id %>')">
+                                        <i class="fas fa-info-circle"></i> View Details
+                                    </button>
+                                    <button class="btn btn-primary btn-sm ms-2" onclick="applyTender('<%= tender._id %>')">
+                                        <i class="fas fa-file-upload"></i> Submit Bid
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <div class="text-center py-5">
+                    <i class="fas fa-gavel fa-5x text-muted mb-3"></i>
+                    <h4>No Active Tenders</h4>
+                    <p class="text-muted">There are no active tenders at the moment. Please check back later.</p>
+                </div>
+            <% } %>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="sidebar">
+                <!-- Tender Guidelines -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5><i class="fas fa-info-circle"></i> Tender Guidelines</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled small">
+                            <li><i class="fas fa-check text-success"></i> Read tender documents carefully</li>
+                            <li><i class="fas fa-check text-success"></i> Submit all required documents</li>
+                            <li><i class="fas fa-check text-success"></i> Follow the specified format</li>
+                            <li><i class="fas fa-check text-success"></i> Submit before deadline</li>
+                            <li><i class="fas fa-check text-success"></i> Include EMD as specified</li>
+                        </ul>
+                        <a href="/tender-guidelines.pdf" class="btn btn-sm btn-primary" target="_blank">
+                            <i class="fas fa-download"></i> Download Guidelines
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Important Dates -->
+                <div class="card mb-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h5><i class="fas fa-calendar"></i> Important Dates</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <strong>Tender Opening:</strong><br>
+                                <small class="text-muted">Every Tuesday & Friday at 3:00 PM</small>
+                            </div>
+                            <hr>
+                            <div class="timeline-item">
+                                <strong>Technical Evaluation:</strong><br>
+                                <small class="text-muted">Within 7 days of opening</small>
+                            </div>
+                            <hr>
+                            <div class="timeline-item">
+                                <strong>Financial Evaluation:</strong><br>
+                                <small class="text-muted">After technical clearance</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5><i class="fas fa-phone"></i> Tender Helpline</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Tender Officer:</strong><br>
+                        Mr. [Name]</p>
+                        <p><strong>Phone:</strong> +91-20-26331400</p>
+                        <p><strong>Email:</strong> tenders@pune.cantt.gov.in</p>
+                        <p><strong>Office Hours:</strong><br>
+                        Mon-Fri: 10:00 AM - 5:00 PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tender Details Modal -->
+<div class="modal fade" id="tenderModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tender Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="tenderModalBody">
+                <!-- Content will be loaded dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="applyTender()">Submit Bid</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showTenderDetails(tenderId) {
+    // Fetch tender details and show in modal
+    fetch(`/api/notices/${tenderId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const tender = data.data;
+                const modalBody = document.getElementById('tenderModalBody');
+                modalBody.innerHTML = `
+                    <h6>Tender Description:</h6>
+                    <p>${tender.content}</p>
+                    <div class="row">
+                        <div class="col-6">
+                            <strong>Published:</strong> ${new Date(tender.publishDate).toLocaleDateString()}
+                        </div>
+                        <div class="col-6">
+                            <strong>Last Date:</strong> ${tender.expiryDate ? new Date(tender.expiryDate).toLocaleDateString() : 'Not specified'}
+                        </div>
+                    </div>
+                `;
+                
+                const modal = new bootstrap.Modal(document.getElementById('tenderModal'));
+                modal.show();
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching tender details:', error);
+            alert('Failed to load tender details');
+        });
+}
+
+function applyTender(tenderId) {
+    alert('Online tender submission will be available soon. Please visit our office to submit physical bids.');
+}
+</script>
+
+<%- include('partials/footer') %>

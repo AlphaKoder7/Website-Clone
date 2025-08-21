@@ -1,0 +1,253 @@
+<%- include('partials/header') %>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h3 class="mb-0"><i class="fas fa-search"></i> Check Application Status</h3>
+                </div>
+                <div class="card-body">
+                    <% if (typeof error !== 'undefined') { %>
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-circle"></i> <%= error %>
+                        </div>
+                    <% } %>
+
+                    <% if (typeof application === 'undefined') { %>
+                        <form method="POST" action="/check-status">
+                            <div class="mb-3">
+                                <label for="applicationNumber" class="form-label">Application Number *</label>
+                                <input type="text" class="form-control form-control-lg" id="applicationNumber" name="applicationNumber" 
+                                       placeholder="Enter your application number (e.g., BC20240001)" required>
+                                <div class="form-text">Enter the application number you received when you submitted your application.</div>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-lg">
+                                <i class="fas fa-search"></i> Check Status
+                            </button>
+                        </form>
+
+                        <hr class="my-4">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-baby fa-3x text-primary mb-3"></i>
+                                        <h5>Birth Certificate</h5>
+                                        <p class="text-muted">Apply for birth certificate</p>
+                                        <a href="/apply/birth-certificate" class="btn btn-primary">Apply Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-cross fa-3x text-dark mb-3"></i>
+                                        <h5>Death Certificate</h5>
+                                        <p class="text-muted">Apply for death certificate</p>
+                                        <a href="/apply/death-certificate" class="btn btn-dark">Apply Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <!-- Application Status Display -->
+                        <div class="application-status">
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <h4>Application Details</h4>
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <td><strong>Application Number:</strong></td>
+                                            <td><span class="badge bg-primary fs-6"><%= application.applicationNumber %></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Type:</strong></td>
+                                            <td><%= application.type === 'birth' ? 'Birth Certificate' : 'Death Certificate' %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Applied Date:</strong></td>
+                                            <td><%= application.createdAt.toLocaleDateString() %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Status:</strong></td>
+                                            <td>
+                                                <span class="badge bg-<%= application.status === 'pending' ? 'warning' : application.status === 'under-review' ? 'info' : application.status === 'approved' ? 'success' : application.status === 'completed' ? 'success' : 'danger' %> fs-6">
+                                                    <%= application.status.toUpperCase().replace('-', ' ') %>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4>Applicant Information</h4>
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <td><strong>Name:</strong></td>
+                                            <td><%= application.applicantDetails.name %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Phone:</strong></td>
+                                            <td><%= application.applicantDetails.phone %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Email:</strong></td>
+                                            <td><%= application.applicantDetails.email %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Relation:</strong></td>
+                                            <td><%= application.applicantDetails.relationToSubject %></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <h4><%= application.type === 'birth' ? 'Child' : 'Deceased Person' %> Information</h4>
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <td><strong>Name:</strong></td>
+                                            <td><%= application.subjectDetails.name %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Gender:</strong></td>
+                                            <td><%= application.subjectDetails.gender %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong><%= application.type === 'birth' ? 'Date of Birth' : 'Date of Death' %>:</strong></td>
+                                            <td><%= application.subjectDetails.dateOfEvent.toLocaleDateString() %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong><%= application.type === 'birth' ? 'Place of Birth' : 'Place of Death' %>:</strong></td>
+                                            <td><%= application.subjectDetails.placeOfEvent %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Father's Name:</strong></td>
+                                            <td><%= application.subjectDetails.fatherName %></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Mother's Name:</strong></td>
+                                            <td><%= application.subjectDetails.motherName %></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Status Timeline -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4>Application Progress</h4>
+                                    <div class="timeline">
+                                        <div class="timeline-item <%= application.status === 'pending' || application.status === 'under-review' || application.status === 'approved' || application.status === 'completed' ? 'completed' : '' %>">
+                                            <div class="timeline-marker bg-success"></div>
+                                            <div class="timeline-content">
+                                                <h6>Application Submitted</h6>
+                                                <p class="text-muted"><%= application.createdAt.toLocaleDateString() %></p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="timeline-item <%= application.status === 'under-review' || application.status === 'approved' || application.status === 'completed' ? 'completed' : '' %>">
+                                            <div class="timeline-marker <%= application.status === 'under-review' || application.status === 'approved' || application.status === 'completed' ? 'bg-success' : 'bg-secondary' %>"></div>
+                                            <div class="timeline-content">
+                                                <h6>Under Review</h6>
+                                                <p class="text-muted">Documents verification in progress</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="timeline-item <%= application.status === 'approved' || application.status === 'completed' ? 'completed' : '' %>">
+                                            <div class="timeline-marker <%= application.status === 'approved' || application.status === 'completed' ? 'bg-success' : 'bg-secondary' %>"></div>
+                                            <div class="timeline-content">
+                                                <h6>Approved</h6>
+                                                <p class="text-muted">Application approved for certificate generation</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="timeline-item <%= application.status === 'completed' ? 'completed' : '' %>">
+                                            <div class="timeline-marker <%= application.status === 'completed' ? 'bg-success' : 'bg-secondary' %>"></div>
+                                            <div class="timeline-content">
+                                                <h6>Certificate Ready</h6>
+                                                <p class="text-muted">Certificate is ready for collection</p>
+                                                <% if (application.certificateNumber) { %>
+                                                    <p><strong>Certificate Number:</strong> <%= application.certificateNumber %></p>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <% if (application.remarks) { %>
+                                <div class="alert alert-info mt-4">
+                                    <h6><i class="fas fa-info-circle"></i> Remarks:</h6>
+                                    <p class="mb-0"><%= application.remarks %></p>
+                                </div>
+                            <% } %>
+
+                            <div class="mt-4">
+                                <a href="/check-status" class="btn btn-outline-primary">
+                                    <i class="fas fa-search"></i> Check Another Application
+                                </a>
+                                <% if (application.status === 'completed') { %>
+                                    <button class="btn btn-success ms-2" onclick="alert('Certificate download feature will be available soon')">
+                                        <i class="fas fa-download"></i> Download Certificate
+                                    </button>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #dee2e6;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -22px;
+    top: 0;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px #dee2e6;
+}
+
+.timeline-item.completed .timeline-marker {
+    box-shadow: 0 0 0 2px #28a745;
+}
+
+.timeline-content h6 {
+    margin-bottom: 5px;
+    color: #495057;
+}
+
+.timeline-item.completed .timeline-content h6 {
+    color: #28a745;
+    font-weight: 600;
+}
+</style>
+
+<%- include('partials/footer') %>

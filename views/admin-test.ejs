@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="fas fa-test-tube"></i> Admin Login Test</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <h5><i class="fas fa-info-circle"></i> Test the Admin Login</h5>
+                            <p>Click any button below to test the admin login with pre-filled credentials:</p>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h6>Admin User</h6>
+                                        <p class="text-muted">
+                                            Username: <code>admin</code><br>
+                                            Password: <code>password</code>
+                                        </p>
+                                        <form method="POST" action="/admin/login">
+                                            <input type="hidden" name="username" value="admin">
+                                            <input type="hidden" name="password" value="password">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-sign-in-alt"></i> Login as Admin
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h6>PCB Admin</h6>
+                                        <p class="text-muted">
+                                            Username: <code>pcb_admin</code><br>
+                                            Password: <code>123456</code>
+                                        </p>
+                                        <form method="POST" action="/admin/login">
+                                            <input type="hidden" name="username" value="pcb_admin">
+                                            <input type="hidden" name="password" value="123456">
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="fas fa-sign-in-alt"></i> Login as PCB Admin
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h6>Test User</h6>
+                                        <p class="text-muted">
+                                            Username: <code>test</code><br>
+                                            Password: <code>test123</code>
+                                        </p>
+                                        <form method="POST" action="/admin/login">
+                                            <input type="hidden" name="username" value="test">
+                                            <input type="hidden" name="password" value="test123">
+                                            <button type="submit" class="btn btn-info">
+                                                <i class="fas fa-sign-in-alt"></i> Login as Test
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <h5>Manual Login Form</h5>
+                                <form method="POST" action="/admin/login" class="row g-3">
+                                    <div class="col-md-4">
+                                        <label for="username" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">&nbsp;</label>
+                                        <button type="submit" class="btn btn-warning d-block">
+                                            <i class="fas fa-sign-in-alt"></i> Manual Login
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 text-center">
+                            <a href="/" class="btn btn-outline-secondary me-2">
+                                <i class="fas fa-home"></i> Back to Home
+                            </a>
+                            <a href="/admin/login" class="btn btn-outline-primary">
+                                <i class="fas fa-shield-alt"></i> Regular Login Page
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>""

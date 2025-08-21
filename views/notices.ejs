@@ -1,0 +1,162 @@
+<%- include('partials/header') %>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <h2>Notices & Announcements</h2>
+            <p class="lead">Stay updated with the latest notices, circulars, and announcements from Pune Cantonment Board.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="notices-container">
+                <% if (notices && notices.length > 0) { %>
+                    <% notices.forEach(notice => { %>
+                        <div class="notice-card card mb-4">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div class="notice-meta">
+                                        <span class="badge bg-<%= notice.category === 'tender' ? 'success' : notice.category === 'urgent' ? 'danger' : 'primary' %>">
+                                            <%= notice.category.toUpperCase() %>
+                                        </span>
+                                        <span class="badge bg-<%= notice.priority === 'urgent' ? 'danger' : notice.priority === 'high' ? 'warning' : 'secondary' %> ms-2">
+                                            <%= notice.priority.toUpperCase() %>
+                                        </span>
+                                    </div>
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar"></i> <%= notice.publishDate.toLocaleDateString() %>
+                                    </small>
+                                </div>
+                                
+                                <h4 class="card-title">
+                                    <a href="/api/notices/<%= notice._id %>" class="text-decoration-none" target="_blank">
+                                        <%= notice.title %>
+                                    </a>
+                                </h4>
+                                
+                                <p class="card-text"><%= notice.content.substring(0, 300) %>...</p>
+                                
+                                <% if (notice.attachments && notice.attachments.length > 0) { %>
+                                    <div class="attachments mb-3">
+                                        <h6><i class="fas fa-paperclip"></i> Attachments:</h6>
+                                        <% notice.attachments.forEach(attachment => { %>
+                                            <a href="/uploads/<%= attachment.filename %>" class="btn btn-sm btn-outline-primary me-2 mb-2" target="_blank">
+                                                <i class="fas fa-download"></i> <%= attachment.originalName %>
+                                            </a>
+                                        <% }) %>
+                                    </div>
+                                <% } %>
+                                
+                                <div class="notice-footer d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">
+                                        <i class="fas fa-eye"></i> <%= notice.views || 0 %> views
+                                    </small>
+                                    <% if (notice.expiryDate) { %>
+                                        <small class="text-danger">
+                                            <i class="fas fa-clock"></i> Expires: <%= notice.expiryDate.toLocaleDateString() %>
+                                        </small>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+
+                    <!-- Pagination -->
+                    <% if (totalPages > 1) { %>
+                        <nav aria-label="Notices pagination">
+                            <ul class="pagination justify-content-center">
+                                <% if (hasPrev) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="/notices?page=<%= currentPage - 1 %>">Previous</a>
+                                    </li>
+                                <% } %>
+                                
+                                <% for (let i = 1; i <= totalPages; i++) { %>
+                                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                        <a class="page-link" href="/notices?page=<%= i %>"><%= i %></a>
+                                    </li>
+                                <% } %>
+                                
+                                <% if (hasNext) { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="/notices?page=<%= currentPage + 1 %>">Next</a>
+                                    </li>
+                                <% } %>
+                            </ul>
+                        </nav>
+                    <% } %>
+
+                <% } else { %>
+                    <div class="text-center py-5">
+                        <i class="fas fa-file-alt fa-5x text-muted mb-3"></i>
+                        <h4>No Notices Available</h4>
+                        <p class="text-muted">There are no notices published at the moment. Please check back later.</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="sidebar">
+                <!-- Search -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5><i class="fas fa-search"></i> Search Notices</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="searchForm">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="searchQuery" placeholder="Search notices...">
+                            </div>
+                            <div class="mb-3">
+                                <select class="form-select" id="categoryFilter">
+                                    <option value="">All Categories</option>
+                                    <option value="tender">Tenders</option>
+                                    <option value="notification">Notifications</option>
+                                    <option value="circular">Circulars</option>
+                                    <option value="announcement">Announcements</option>
+                                    <option value="recruitment">Recruitment</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">Search</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Categories -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5><i class="fas fa-tags"></i> Categories</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li><a href="/notices?category=tender" class="text-decoration-none">Tenders</a></li>
+                            <li><a href="/notices?category=notification" class="text-decoration-none">Notifications</a></li>
+                            <li><a href="/notices?category=circular" class="text-decoration-none">Circulars</a></li>
+                            <li><a href="/notices?category=announcement" class="text-decoration-none">Announcements</a></li>
+                            <li><a href="/notices?category=recruitment" class="text-decoration-none">Recruitment</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5><i class="fas fa-link"></i> Quick Links</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li><a href="/tenders" class="text-decoration-none">Current Tenders</a></li>
+                            <li><a href="/services" class="text-decoration-none">Citizen Services</a></li>
+                            <li><a href="/contact" class="text-decoration-none">Contact Us</a></li>
+                            <li><a href="/about" class="text-decoration-none">About PCB</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
